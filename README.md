@@ -16,4 +16,4 @@ If you are developer and want to contribute, check out the [source code](https:/
 
 # Support
 
-If you like the mod, feel free to support me by [buying me a cofee](https://ko-fi.com/lukynkacze)
+If you like the mod, consider supporting me by [buying me a cofee](https://ko-fi.com/lukynkacze)
