@@ -1,33 +1,33 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "bettersavedhotbars",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Better Saved Hotbar",
+  "description": "This mod allows you to drag items into the saved hotbars tab and remove them by middle clicking!",
   "authors": [
-    "Me!"
+    "LukynkaCZE"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
+    "homepage": "https://lukynka.cz/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/bettersavedhotbars/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "cz.lukynka.bettersavedhotbars.BetterSavedHotbars"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "bettersavedhotbars.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.19",
+    "fabricloader": ">=0.14.17",
     "fabric-api": "*",
     "minecraft": "~1.19.4",
     "java": ">=17"
