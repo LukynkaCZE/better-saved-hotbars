@@ -30,7 +30,7 @@ dependencies {
 }
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = "BetterSavedHorbars"
 }
 
 processResources {
@@ -58,7 +58,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${base.archivesName.get()}"}
+		rename { "Better-Saved-Hotbars-1.0"}
 	}
 }
 
