@@ -1,5 +1,6 @@
 package cz.lukynka.bettersavedhotbars.mixin;
 
+import cz.lukynka.bettersavedhotbars.BetterSavedHotbars;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -14,10 +15,15 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class)
 public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
+
+    @Shadow protected abstract void selectTab(CreativeModeTab creativeModeTab);
+
+    @Shadow private float scrollOffs;
 
     public SelectTabMixin(CreativeModeInventoryScreen.ItemPickerMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
@@ -29,7 +35,7 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
         if (selectedTab.getType() == CreativeModeTab.Type.HOTBAR) {
             HotbarManager hotbarManager = Minecraft.getInstance().getHotbarManager();
             (this.menu).items.clear();
-            for (int i = 0; i < 5; ++i) {
+            for (int i = 0; i < 9; ++i) {
                 Hotbar hotbar = hotbarManager.get(i);
                 if (hotbar.isEmpty()) {
                     for (int j = 0; j < 9; ++j) {
@@ -39,9 +45,16 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
                 }
                 this.menu.items.addAll(hotbar);
             }
-            this.menu.scrollTo(0.0f);
+            this.scrollOffs = BetterSavedHotbars.lastScrollOffset;
+            this.menu.scrollTo(BetterSavedHotbars.lastScrollOffset);
             ci.cancel();
         }
+    }
+
+    @Inject(at = @At("TAIL"), method = "mouseScrolled", cancellable = true)
+    private void mouseScrolled(double d, double e, double f, CallbackInfoReturnable<Boolean> cir) {
+        BetterSavedHotbars.lastScrollOffset = this.scrollOffs;
+        this.selectTab(selectedTab);
     }
 
     @Shadow private static CreativeModeTab selectedTab;
