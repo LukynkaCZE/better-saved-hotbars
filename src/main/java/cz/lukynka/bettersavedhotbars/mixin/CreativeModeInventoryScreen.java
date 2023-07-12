@@ -1,8 +1,10 @@
 package cz.lukynka.bettersavedhotbars.mixin;
 
+import cz.lukynka.bettersavedhotbars.BetterSavedHotbars;
 import cz.lukynka.bettersavedhotbars.HotbarInfo;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
@@ -19,6 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreen {
     @Shadow private static CreativeModeTab selectedTab;
+
+    @Shadow private float scrollOffs;
+
+    @Shadow protected abstract void selectTab(CreativeModeTab creativeModeTab);
 
     @Inject(at = @At("HEAD"), method = "slotClicked", cancellable = true)
     private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
@@ -49,12 +55,19 @@ public abstract class CreativeModeInventoryScreen {
         hotbarManager.get(newHotbarInfo.getRow()).set(newHotbarInfo.getSlot(), item);
         hotbarManager.save();
         Minecraft.getInstance().player.inventoryMenu.setCarried(ItemStack.EMPTY);
+        BetterSavedHotbars.lastScrollOffset = scrollOffs;
+        this.selectTab(selectedTab);
         ci.cancel();
     }
 
     private HotbarInfo getHotbarWithIndex(Slot slot) {
-        Integer rHotbar = slot.getContainerSlot() / 9;
-        Integer rSlot = ((slot.x - 9) / 9) / 2;
-        return new HotbarInfo(rSlot, rHotbar);
+        var offset = this.scrollOffs;
+        int scrollPage = Math.round(4 * scrollOffs);
+
+        int slotRow = (slot.getContainerSlot() / 9) + scrollPage;
+        int slotNumber = (((slot.x - 9) / 9) / 2);
+
+        assert Minecraft.getInstance().player != null;
+        return new HotbarInfo(slotNumber, slotRow);
     }
 }
