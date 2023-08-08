@@ -4,7 +4,6 @@ import cz.lukynka.bettersavedhotbars.BetterSavedHotbars;
 import cz.lukynka.bettersavedhotbars.HotbarInfo;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
