@@ -53,7 +53,7 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
     }
 
     @Inject(at = @At("TAIL"), method = "mouseScrolled")
-    private void mouseScrolled(double d, double e, double f, CallbackInfoReturnable<Boolean> cir) {
+    private void mouseScrolled(double d, double e, double f, double g, CallbackInfoReturnable<Boolean> cir) {
         if (selectedTab.getIconItem().getItem() == Items.BOOKSHELF) {
             BetterSavedHotbars.lastScrollOffset = this.scrollOffs;
             this.selectTab(selectedTab);
