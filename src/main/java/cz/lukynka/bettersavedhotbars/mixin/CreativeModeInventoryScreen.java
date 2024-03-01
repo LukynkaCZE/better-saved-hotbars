@@ -12,38 +12,37 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
 @Mixin(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreen {
     @Shadow private static CreativeModeTab selectedTab;
-
     @Shadow private float scrollOffs;
 
     @Shadow protected abstract void selectTab(CreativeModeTab creativeModeTab);
 
     @Inject(at = @At("HEAD"), method = "slotClicked", cancellable = true)
     private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
-        if(selectedTab.getType() != CreativeModeTab.Type.HOTBAR) return;
+        if (selectedTab.getType() != CreativeModeTab.Type.HOTBAR) return;
 
-        if(slot == null) return;
+        if (slot == null) return;
 
         HotbarManager hotbarManager = Minecraft.getInstance().getHotbarManager();
         Player player = Minecraft.getInstance().player;
         assert player != null;
         ItemStack item = player.inventoryMenu.getCarried().copy();
 
-        if(i >= 45) return;
+        if (i >= 45) return;
         HotbarInfo newHotbarInfo = getHotbarWithIndex(slot);
 
-        if(item.getItem() == Items.AIR) {
-            if(clickType == ClickType.CLONE) {
+        if (item.getItem() == Items.AIR) {
+            if (clickType == ClickType.CLONE) {
                 ItemStack slotItem = slot.getItem();
                 slot.set(new ItemStack(Items.AIR, 0));
-                hotbarManager.get(newHotbarInfo.getRow()).set(newHotbarInfo.getSlot(), ItemStack.EMPTY);
+                hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), ItemStack.EMPTY);
                 hotbarManager.save();
                 Minecraft.getInstance().player.inventoryMenu.setCarried(slotItem);
                 ci.cancel();
@@ -51,7 +50,7 @@ public abstract class CreativeModeInventoryScreen {
             return;
         }
         slot.set(item);
-        hotbarManager.get(newHotbarInfo.getRow()).set(newHotbarInfo.getSlot(), item);
+        hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), item);
         hotbarManager.save();
         Minecraft.getInstance().player.inventoryMenu.setCarried(ItemStack.EMPTY);
         BetterSavedHotbars.lastScrollOffset = scrollOffs;
@@ -59,8 +58,8 @@ public abstract class CreativeModeInventoryScreen {
         ci.cancel();
     }
 
+    @Unique
     private HotbarInfo getHotbarWithIndex(Slot slot) {
-        var offset = this.scrollOffs;
         int scrollPage = Math.round(4 * scrollOffs);
 
         int slotRow = (slot.getContainerSlot() / 9) + scrollPage;
