@@ -1,7 +1,6 @@
 package cz.lukynka.bettersavedhotbars.mixin;
 
 import cz.lukynka.bettersavedhotbars.BetterSavedHotbars;
-import cz.lukynka.bettersavedhotbars.util.ChatUtils;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -19,17 +18,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-
 @Mixin(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class)
 public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
-
-    @Shadow protected abstract void selectTab(CreativeModeTab creativeModeTab);
-
+    @Shadow private static CreativeModeTab selectedTab;
     @Shadow private float scrollOffs;
 
     public SelectTabMixin(CreativeModeInventoryScreen.ItemPickerMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
     }
+
+    @Shadow
+    protected abstract void selectTab(CreativeModeTab creativeModeTab);
 
     @Inject(at = @At("TAIL"), method = "selectTab", cancellable = true)
     private void selectTab(CreativeModeTab creativeModeTab, CallbackInfo ci) {
@@ -59,6 +58,4 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
             this.selectTab(selectedTab);
         }
     }
-
-    @Shadow private static CreativeModeTab selectedTab;
 }
