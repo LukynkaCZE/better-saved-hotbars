@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.player.inventory.Hotbar;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTab;
@@ -34,6 +35,7 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
     private void selectTab(CreativeModeTab creativeModeTab, CallbackInfo ci) {
         if (selectedTab.getType() == CreativeModeTab.Type.HOTBAR && selectedTab.getIconItem().getItem() == Items.BOOKSHELF) {
             HotbarManager hotbarManager = Minecraft.getInstance().getHotbarManager();
+            RegistryAccess registryAccess = Minecraft.getInstance().player.level().registryAccess();
             (this.menu).items.clear();
             for (int i = 0; i < 9; ++i) {
                 Hotbar hotbar = hotbarManager.get(i);
@@ -43,7 +45,7 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
                     }
                     continue;
                 }
-//                this.menu.items.addAll(hotbar);
+                this.menu.items.addAll(hotbar.load(registryAccess));
             }
             this.scrollOffs = BetterSavedHotbars.lastScrollOffset;
             this.menu.scrollTo(BetterSavedHotbars.lastScrollOffset);

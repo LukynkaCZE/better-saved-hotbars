@@ -4,6 +4,8 @@ import cz.lukynka.bettersavedhotbars.BetterSavedHotbars;
 import cz.lukynka.bettersavedhotbars.HotbarInfo;
 import net.minecraft.client.HotbarManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
@@ -17,6 +19,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreen {
@@ -35,6 +39,7 @@ public abstract class CreativeModeInventoryScreen {
         Player player = Minecraft.getInstance().player;
         assert player != null;
         ItemStack item = player.inventoryMenu.getCarried().copy();
+        RegistryAccess registryAccess = player.level().registryAccess();
 
         if (i >= 45) return;
         HotbarInfo newHotbarInfo = getHotbarWithIndex(slot);
@@ -43,8 +48,8 @@ public abstract class CreativeModeInventoryScreen {
             if (clickType == ClickType.CLONE) {
                 ItemStack slotItem = slot.getItem();
                 slot.set(new ItemStack(Items.AIR, 0));
-//                hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), ItemStack.EMPTY);
-                hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), ItemStack.EMPTY);
+                var hotbar = hotbarManager.get(newHotbarInfo.row());
+                hotbar.storeFrom(fakeInventoryWithModifiedHotbar(hotbar.load(registryAccess), newHotbarInfo.slot(), item), registryAccess);
                 hotbarManager.save();
                 Minecraft.getInstance().player.inventoryMenu.setCarried(slotItem);
                 ci.cancel();
@@ -52,12 +57,31 @@ public abstract class CreativeModeInventoryScreen {
             return;
         }
         slot.set(item);
-        hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), item);
+        var hotbar = hotbarManager.get(newHotbarInfo.row());
+        hotbar.storeFrom(fakeInventoryWithModifiedHotbar(hotbar.load(registryAccess), newHotbarInfo.slot(), item), registryAccess);
+
         hotbarManager.save();
         Minecraft.getInstance().player.inventoryMenu.setCarried(ItemStack.EMPTY);
         BetterSavedHotbars.lastScrollOffset = scrollOffs;
         this.selectTab(selectedTab);
         ci.cancel();
+    }
+
+
+    @Unique
+    private Inventory fakeInventoryWithModifiedHotbar(List<ItemStack> existingItems, Integer slot, ItemStack itemStack) {
+        assert Minecraft.getInstance().player != null;
+        var player = Minecraft.getInstance().player;
+        var fakeInventory = new Inventory(player);
+        var i = 0;
+        fakeInventory.items.clear();
+        for(ItemStack item : existingItems) {
+            fakeInventory.setItem(i, existingItems.get(i));
+            i++;
+        }
+        fakeInventory.setItem(slot, itemStack);
+
+        return fakeInventory;
     }
 
     @Unique
