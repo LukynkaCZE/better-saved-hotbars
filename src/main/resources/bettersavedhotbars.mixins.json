@@ -4,6 +4,8 @@
   "package": "cz.lukynka.bettersavedhotbars.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "HotbarAccessor",
+    "HotbarAccessor"
   ],
   "client": [
     "CreativeModeInventoryScreen",

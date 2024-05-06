@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.class)
+@Mixin(CreativeModeInventoryScreen.class)
 public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
     @Shadow private static CreativeModeTab selectedTab;
     @Shadow private float scrollOffs;
@@ -43,7 +43,7 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
                     }
                     continue;
                 }
-                this.menu.items.addAll(hotbar);
+//                this.menu.items.addAll(hotbar);
             }
             this.scrollOffs = BetterSavedHotbars.lastScrollOffset;
             this.menu.scrollTo(BetterSavedHotbars.lastScrollOffset);
@@ -59,3 +59,4 @@ public abstract class SelectTabMixin extends EffectRenderingInventoryScreen<Crea
         }
     }
 }
+

@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -25,7 +26,7 @@ public abstract class CreativeModeInventoryScreen {
     @Shadow protected abstract void selectTab(CreativeModeTab creativeModeTab);
 
     @Inject(at = @At("HEAD"), method = "slotClicked", cancellable = true)
-    private void slotClicked(Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
+    private void slotClicked(@Nullable Slot slot, int i, int j, ClickType clickType, CallbackInfo ci) {
         if (selectedTab.getType() != CreativeModeTab.Type.HOTBAR) return;
 
         if (slot == null) return;
@@ -42,6 +43,7 @@ public abstract class CreativeModeInventoryScreen {
             if (clickType == ClickType.CLONE) {
                 ItemStack slotItem = slot.getItem();
                 slot.set(new ItemStack(Items.AIR, 0));
+//                hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), ItemStack.EMPTY);
                 hotbarManager.get(newHotbarInfo.row()).set(newHotbarInfo.slot(), ItemStack.EMPTY);
                 hotbarManager.save();
                 Minecraft.getInstance().player.inventoryMenu.setCarried(slotItem);
