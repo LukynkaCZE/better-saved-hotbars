@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/github/LukynkaCZE/better-saved-hotbars.svg)](https://wakatime.com/badge/github/LukynkaCZE/better-saved-hotbars)
+
 # Better Saved Hotbars
 
 This mod allows you to drag items into the saved hotbars tab in creative inventory insead of having to use keybind to save entire hotbar!
