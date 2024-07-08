@@ -2,6 +2,7 @@ package cz.lukynka.bettersavedhotbars.updater;
 
 import com.google.gson.Gson;
 import cz.lukynka.bettersavedhotbars.BetterSavedHotbars;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
@@ -11,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 // This is blatantly stolen from Island Utils
  // https://github.com/AsoDesu/IslandUtils/tree/main/src/main/java/net/asodev/islandutils/util/updater/
@@ -50,6 +52,21 @@ public class UpdateManager {
                 if (!BetterSavedHotbars.version.equals(res.getTagName())) {
                     BetterSavedHotbars.updateTag = res.getTagName();
                     BetterSavedHotbars.updateAvailable = true;
+
+                    var desc = res.getBody().split("\n");
+                    var updateLine = desc[0];
+                    var split = updateLine.split(Pattern.quote("_For Minecraft "));
+                    if(split.length == 1) {
+                        System.err.println("Version string not found!");
+                        return;
+                    }
+
+                    var mcVersion = split[1].split(Pattern.quote("_"))[0];
+
+                    var currentVersion = SharedConstants.getCurrentVersion().getName();
+                    if(currentVersion.equals(mcVersion)) {
+                        BetterSavedHotbars.isUpdatedForThisVersion = true;
+                    }
 
                     // Compare tag from github and current version as numbers, if current version
                     // is bigger than one from github, we are running dev version
