@@ -27,8 +27,6 @@ public class BetterSavedHotbars implements ModInitializer {
 
     public static float lastScrollOffset = 0;
 
-    public static boolean isUpdatedForThisVersion = false;
-
     @Override
     public void onInitialize() {
         LOGGER.info("Hi there");

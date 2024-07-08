@@ -72,6 +72,8 @@ public abstract class MainScreenMixin extends Screen {
     @Override
     public void tick() {
 
+        if(button == null) return;
+
         if((System.currentTimeMillis() - startTime) >= fadeAfterTime * 1000L) {
             isFading = true;
         }
