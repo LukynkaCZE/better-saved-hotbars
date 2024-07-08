@@ -23,6 +23,8 @@ public class BetterSavedHotbars implements ModInitializer {
 
     public static boolean updateAvailable = false;
 
+    public static boolean isUpdatedForThisVersion = false;
+
     public static float lastScrollOffset = 0;
 
     public static boolean isUpdatedForThisVersion = false;
