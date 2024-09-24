@@ -23,9 +23,9 @@
     "bettersavedhotbars.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.21",
+    "fabricloader": ">=0.16.5",
     "fabric-api": "*",
-    "minecraft": "~1.21",
+    "minecraft": "~1.21.1",
     "java": ">=17"
   },
   "suggests": {
