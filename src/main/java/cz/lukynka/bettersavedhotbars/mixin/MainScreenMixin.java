@@ -43,18 +43,13 @@ public abstract class MainScreenMixin extends Screen {
 
         var text = "";
         if(BetterSavedHotbars.isUpdatedForThisVersion) {
-            text = "&2⚠ &aBetter Saved Hotbars Update Available! &n&lClick to Update!&a &2⚠";
-            fadeAfterTime = 15;
+            text = "&7&oBetter Saved Hotbars update available";
+            fadeAfterTime = 10;
             fadeTime = 5;
-        } else {
-            text = "&7&oBetter Saved Hotbars Update for different version available...";
-            fadeAfterTime = 5;
-            fadeTime = 2;
         }
 
         startTime = System.currentTimeMillis();
 
-        if(BetterSavedHotbars.isDevVersion) text = "&4⚠ &cYou are running dev version of Better Saved Hotbars &4⚠";
         Component component = Component.literal(cz.lukynka.bettersavedhotbars.Util.translate(text));
 
         button = new PlainTextButton(
