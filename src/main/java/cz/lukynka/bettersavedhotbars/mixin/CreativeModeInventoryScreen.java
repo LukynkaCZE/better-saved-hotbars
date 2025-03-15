@@ -56,6 +56,12 @@ public abstract class CreativeModeInventoryScreen {
             }
             return;
         }
+
+        if (slot == null || !slot.getItem().isEmpty()) {
+            player.inventoryMenu.setCarried(ItemStack.EMPTY);
+            return;
+        }
+        
         slot.set(item);
         var hotbar = hotbarManager.get(newHotbarInfo.row());
         hotbar.storeFrom(fakeInventoryWithModifiedHotbar(hotbar.load(registryAccess), newHotbarInfo.slot(), item), registryAccess);
