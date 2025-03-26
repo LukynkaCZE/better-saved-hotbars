@@ -78,9 +78,10 @@ public abstract class CreativeModeInventoryScreen {
     private Inventory fakeInventoryWithModifiedHotbar(List<ItemStack> existingItems, Integer slot, ItemStack itemStack) {
         assert Minecraft.getInstance().player != null;
         var player = Minecraft.getInstance().player;
-        var fakeInventory = new Inventory(player);
+        var fakeInventory = new Inventory(player, ((InventoryAccessor) player.getInventory()).getEquipment());
         var i = 0;
-        fakeInventory.items.clear();
+        var fakeInventoryAccessor = ((InventoryAccessor) fakeInventory);
+        fakeInventoryAccessor.getItems().clear();
         for(ItemStack item : existingItems) {
             fakeInventory.setItem(i, existingItems.get(i));
             i++;
