@@ -1,9 +1,15 @@
 package cz.lukynka.bettersavedhotbars;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
+import com.mojang.blaze3d.platform.InputConstants;
 import cz.lukynka.bettersavedhotbars.updater.UpdateManager;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.debug.DebugRenderer;
+import net.minecraft.util.profiling.jfr.event.ServerTickTimeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +44,13 @@ public class BetterSavedHotbars implements ModInitializer {
             updateManager.runUpdateCheck();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        ClientTickEvents.START_CLIENT_TICK.register(this::onClientTick);
+    }
+
+    private void onClientTick(Minecraft minecraft) {
+        if(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.KEY_L)) {
         }
     }
 }

@@ -4,9 +4,11 @@
   "package": "cz.lukynka.bettersavedhotbars.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "SharedConstantsMixin"
   ],
   "client": [
     "CreativeModeInventoryScreen",
+    "DebugRendererMixin",
     "MainScreenMixin",
     "SelectTabMixin"
   ],
