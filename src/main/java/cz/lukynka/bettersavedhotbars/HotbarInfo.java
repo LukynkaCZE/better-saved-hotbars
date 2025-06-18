@@ -1,4 +1,3 @@
 package cz.lukynka.bettersavedhotbars;
 
-public record HotbarInfo(Integer slot, Integer row) {
-}
+public record HotbarInfo(Integer slot, Integer row) {}

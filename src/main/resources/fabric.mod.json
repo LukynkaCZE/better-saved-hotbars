@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "id": "bettersavedhotbars",
   "version": "${version}",
-  "name": "Better Saved Hotbar",
+  "name": "Better Saved Hotbars",
   "description": "This mod allows you to drag items into the saved hotbars tab and remove them by middle clicking!",
   "authors": [
     "LukynkaCZE"
   ],
   "contact": {
-    "homepage": "https://lukynka.cz/",
+    "homepage": "https://lukynka.cloud/",
     "sources": "https://github.com/LukynkaCZE/better-saved-hotbars"
   },
   "license": "MIT",
@@ -24,10 +24,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.16.7",
-    "minecraft": "~1.21.3",
-    "java": ">=21"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "minecraft": "~1.21.6",
+    "java": ">=21",
+    "fabric-api": "*"
   }
 }

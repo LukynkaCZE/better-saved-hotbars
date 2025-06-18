@@ -47,8 +47,8 @@ public abstract class SelectTabMixin extends AbstractContainerScreen<CreativeMod
                 }
                 this.menu.items.addAll(hotbar.load(registryAccess));
             }
-            this.scrollOffs = BetterSavedHotbars.lastScrollOffset;
-            this.menu.scrollTo(BetterSavedHotbars.lastScrollOffset);
+            this.scrollOffs = BetterSavedHotbars.LAST_SCROLL_OFFSET;
+            this.menu.scrollTo(BetterSavedHotbars.LAST_SCROLL_OFFSET);
             ci.cancel();
         }
     }
@@ -56,7 +56,7 @@ public abstract class SelectTabMixin extends AbstractContainerScreen<CreativeMod
     @Inject(at = @At("TAIL"), method = "mouseScrolled")
     private void mouseScrolled(double d, double e, double f, double g, CallbackInfoReturnable<Boolean> cir) {
         if (selectedTab.getIconItem().getItem() == Items.BOOKSHELF) {
-            BetterSavedHotbars.lastScrollOffset = this.scrollOffs;
+            BetterSavedHotbars.LAST_SCROLL_OFFSET = this.scrollOffs;
             this.selectTab(selectedTab);
         }
     }

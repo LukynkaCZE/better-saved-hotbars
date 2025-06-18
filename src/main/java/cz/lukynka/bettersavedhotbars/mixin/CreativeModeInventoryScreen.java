@@ -68,7 +68,7 @@ public abstract class CreativeModeInventoryScreen {
 
         hotbarManager.save();
         Minecraft.getInstance().player.inventoryMenu.setCarried(ItemStack.EMPTY);
-        BetterSavedHotbars.lastScrollOffset = scrollOffs;
+        BetterSavedHotbars.LAST_SCROLL_OFFSET = scrollOffs;
         this.selectTab(selectedTab);
         ci.cancel();
     }

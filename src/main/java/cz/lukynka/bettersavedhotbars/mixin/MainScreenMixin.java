@@ -39,10 +39,10 @@ public abstract class MainScreenMixin extends Screen {
     protected MainScreenMixin(Component component) { super(component); }
     @Inject(method = "init", at = @At("TAIL"))
     public void init(CallbackInfo ci) {
-        if (!BetterSavedHotbars.updateAvailable) return;
+        if (!BetterSavedHotbars.UPDATE_AVAILABLE) return;
 
         var text = "";
-        if(BetterSavedHotbars.isUpdatedForThisVersion) {
+        if(BetterSavedHotbars.IS_UPDATE_FOR_THIS_VERSION) {
             text = "&7&oBetter Saved Hotbars update available";
             fadeAfterTime = 10;
             fadeTime = 5;
@@ -58,7 +58,7 @@ public abstract class MainScreenMixin extends Screen {
                 this.font.width(component),
                 10,
                 component,
-                (clickable) -> Util.getPlatform().openUri("https://modrinth.com/mod/better-saved-hotbars/version/" +BetterSavedHotbars.updateTag),
+                (clickable) -> Util.getPlatform().openUri("https://modrinth.com/mod/better-saved-hotbars/version/" +BetterSavedHotbars.UPDATE_TAG),
                 this.font);
 
         this.addRenderableWidget(button);

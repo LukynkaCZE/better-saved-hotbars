@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface InventoryAccessor {
 
     @Accessor("equipment")
-    public EntityEquipment getEquipment();
+    EntityEquipment getEquipment();
 
     @Accessor("items")
-    public NonNullList<ItemStack> getItems();
+    NonNullList<ItemStack> getItems();
 }
